@@ -3,7 +3,7 @@
 A FastAPI service that accepts a CSV of hospitals and creates them through the
 [Hospital Directory API](https://hospital-directory.onrender.com/docs) as one batch.
 
-**Live:** _deploying, URL to follow_ · API docs at `/docs` · test console at `/ui`
+**Live:** https://hospital-bulk-processing-t53b.onrender.com · API docs at [`/docs`](https://hospital-bulk-processing-t53b.onrender.com/docs) · test console at [`/ui`](https://hospital-bulk-processing-t53b.onrender.com/ui)
 
 ## Requirements coverage
 
