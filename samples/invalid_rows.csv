@@ -1,0 +1,5 @@
+name,address,phone
+Valid Hospital,1 Main St,555-0001
+,2 Oak Ave,555-0002
+No Address Hospital,,555-0003
+Too Many Fields,3 Elm Rd,555-0004,extra

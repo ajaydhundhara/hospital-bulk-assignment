@@ -1,0 +1,37 @@
+# Run against the real Hospital Directory API:
+#   docker compose up --build
+#
+# Run fully offline against the bundled fake upstream (0.3 s per create, rejects names
+# containing "FAIL"):
+#   UPSTREAM_BASE_URL=http://fake-upstream:9000 docker compose --profile fake up --build
+#
+# Then open http://localhost:8000/ui (API docs at /docs). The port is published on
+# 127.0.0.1 only. Hard clean is off unless you add ENABLE_HARD_CLEAN=true to the command.
+services:
+  app:
+    build: .
+    image: hospital-bulk-processing
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:8000"
+    environment:
+      UPSTREAM_BASE_URL: ${UPSTREAM_BASE_URL:-https://hospital-directory.onrender.com}
+      MAX_ROWS: ${MAX_ROWS:-20}
+      UPSTREAM_CONCURRENCY: ${UPSTREAM_CONCURRENCY:-10}
+      ENABLE_HARD_CLEAN: ${ENABLE_HARD_CLEAN:-false}
+    volumes:
+      - bulk-data:/data  # job and row state survive container restarts
+    restart: unless-stopped
+
+  fake-upstream:
+    profiles: ["fake"]
+    image: hospital-bulk-processing
+    command: ["uvicorn", "scripts.fake_upstream:app", "--host", "0.0.0.0", "--port", "9000"]
+    environment:
+      FAKE_UPSTREAM_DELAY: ${FAKE_UPSTREAM_DELAY:-0.3}
+    ports:
+      - "127.0.0.1:9000:9000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9000/', timeout=4)"]
+
+volumes:
+  bulk-data:

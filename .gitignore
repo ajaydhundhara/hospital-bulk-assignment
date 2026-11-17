@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.env
+
+# Local runtime data (job state written by the app)
+data/
+
+# Private notes and tool output, not part of the submission
+.claude/
+Claude outputs/
+REVIEW_GUIDE.md
+REVIEW_NOTES.md
+
+# OS
+.DS_Store

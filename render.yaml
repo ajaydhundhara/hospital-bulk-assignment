@@ -1,0 +1,22 @@
+# Render Blueprint: New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: hospital-bulk-processing
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: UPSTREAM_BASE_URL
+        value: https://hospital-directory.onrender.com
+      - key: MAX_ROWS
+        value: "20"
+      - key: UPSTREAM_CONCURRENCY
+        value: "10"
+      # Public URL with no auth: don't expose "delete every batch".
+      - key: ENABLE_HARD_CLEAN
+        value: "false"
+      # Free instances have no persistent disk; state lasts until the next restart/deploy
+      # (the brief allows in-memory storage).
+      - key: DATA_DIR
+        value: /tmp/bulk-data
