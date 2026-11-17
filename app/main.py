@@ -17,7 +17,7 @@ from fastapi import (
     Response,
     UploadFile,
 )
-from fastapi.responses import FileResponse, Response as RawResponse
+from fastapi.responses import FileResponse, RedirectResponse, Response as RawResponse
 
 from .client import HospitalDirectoryClient, UpstreamError
 from .config import Settings, get_settings
@@ -157,8 +157,15 @@ def _run(
         client.close()
 
 
-@app.get("/", tags=["health"])
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    """A browser opening the bare URL lands on the test console."""
+    return RedirectResponse("/ui")
+
+
+@app.get("/health", tags=["health"])
 def health() -> Dict[str, str]:
+    """Liveness check (Render's healthCheckPath, Docker HEALTHCHECK)."""
     return {"status": "ok"}
 
 

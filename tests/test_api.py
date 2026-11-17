@@ -6,7 +6,13 @@ GOOD = "name,address,phone\nGeneral,1 Main St,555-1\nCity,2 Oak Ave,\nCounty,3 E
 
 
 def test_health(client):
-    assert client.get("/").json() == {"status": "ok"}
+    assert client.get("/health").json() == {"status": "ok"}
+
+
+def test_root_redirects_to_console(client):
+    resp = client.get("/", follow_redirects=False)
+    assert resp.status_code == 307
+    assert resp.headers["location"] == "/ui"
 
 
 def test_bulk_success(client, upstream):

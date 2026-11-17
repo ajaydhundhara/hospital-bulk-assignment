@@ -300,7 +300,7 @@
   const canActivate = r => r.status !== 'processing' && !r.batch_activated && r.hospitals.some(h => h.status === 'created');
 
   // ---------- health ----------
-  api('/').then(() => { $('healthDot').className = 'dot up'; $('healthText').textContent = 'API online'; })
+  api('/health').then(() => { $('healthDot').className = 'dot up'; $('healthText').textContent = 'API online'; })
           .catch(() => { $('healthDot').className = 'dot down'; $('healthText').textContent = 'API unreachable'; });
   api('/info').then(i => {
     $('maxRows').textContent = i.max_rows || 'any number of';

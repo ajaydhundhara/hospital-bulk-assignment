@@ -131,7 +131,8 @@ Tests mock the upstream with `httpx.MockTransport`, so they need no network.
 | `GET` | `/hospitals/bulk/{batch_id}/job` | Raw job record (counters, timestamps, filename) |
 | `GET` | `/hospitals/bulk/{batch_id}/failed.csv` | Failed and invalid rows as `name,address,phone,error`: fix and upload again (the `error` column is ignored) |
 | `GET` | `/hospitals/bulk/{batch_id}/records` | Stored CSV rows with state; filter with `?status=failed` |
-| `GET` | `/` | Health check |
+| `GET` | `/` | Redirects to the test console (`/ui`) |
+| `GET` | `/health` | Health check (used by Render and the Docker healthcheck) |
 | `GET` | `/info` | Runtime limits: `max_rows`, `upstream_concurrency`, `hard_clean_enabled` |
 | `DELETE` | `/hospitals/bulk?confirm=true` | **Destructive.** Delete all batches created here (upstream + local); 403 when disabled |
 | `GET` | `/ui` | Test console |
